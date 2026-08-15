@@ -1,19 +1,16 @@
-#indef LIST_h
-#define LIST_h
+#ifndef List_h
+#define List_h
 
-#include <iostream>
 #include <vector>
-
-using namespace std
 
 template <typename T>
 class List {
-    private:
-        vector<T> list;
-        int size;
-    public:
-        List();
-        void insert(T data);
+private:
+    vector<T> list;
+    int size;
+public:
+    List();
+    void insert(T data);
 };
 
 template <typename T>
@@ -22,7 +19,7 @@ List<T>::List() {
 }
 
 template <typename T>
-void insert(T data) {
+void List<T>::insert(T data) {
     list.push_back(data);
     size++;
 }
@@ -30,4 +27,4 @@ void insert(T data) {
 
 
 
- #endif /*List_h*/
+#endif /* List_h */
