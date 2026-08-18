@@ -75,25 +75,6 @@ void List<T>::print() {
     cout << endl;
 }
 
-template <typename T>
-void List<T>::insertAt(int pos, T data) {
-    if (pos < 0 || pos > size) {
-        cout << "Posicion invalida" << endl;
-        return;
-    }
-    list.insert(list.begin() + pos, data);
-    size++;
-}
-
-template <typename T>
-void List<T>::removeAt(int pos) {
-    if (pos < 0 || pos >= size) {
-        cout << "Posicion invalida" << endl;
-        return;
-    }
-    list.erase(list.begin() + pos);
-    size--;
-}
 
 template <typename T>
 void List<T>::insertAt(int pos, T data) {
@@ -115,12 +96,12 @@ template <typename T>
 void List<T>::removeAt(int pos) {
 
     if (size == 0) {
-        cout << "NO HAY ELEMENTOS" << endl;
+        cout << "No hay elementos" << endl;
         return;
     }
 
     if (pos < 0 || pos >= size) {
-        cout << "POSICIÓN INVÁLIDA" << endl;
+        cout << "Posición inválida" << endl;
         return;
     }
 
