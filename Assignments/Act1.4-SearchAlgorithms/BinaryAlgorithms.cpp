@@ -48,12 +48,16 @@ int main() {
 
 
 
-int left = 0
-int right = n+1
-int mid = (right+left/2)
+int left = 0;
+int right = n + 1;
+int mid = (right + left) / 2;
 
-
-int binaryResearch (left = 0,left<right,){
-    
-
+int binaryResearch (left = 0, left < right, mid = (right + left) / 2) {
+    if (list[mid] == data) {
+        return mid;
+    } else if (list[mid] < data) {
+        return binaryResearch(left = mid + 1, right, data);
+    } else {
+        return binaryResearch(left, right = mid - 1, data);
+    }
 }
