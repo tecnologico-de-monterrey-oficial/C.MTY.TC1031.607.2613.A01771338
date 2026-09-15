@@ -6,6 +6,46 @@
 #include <vector>
 
 
+bool afterBefore(const Log& a, const Log& b) { 
+
+    if (a.year < b.year) return true;
+    if (a.year > b.year) return false;
+
+    if (a.month < b.month) return true;
+    if (a.month > b.month) return false;
+
+    if (a.day < b.day) return true;
+    if (a.day > b.day) return false;
+
+    if (a.hour < b.hour) return true;
+    if (a.hour > b.hour) return false;
+
+    if (a.min < b.min) return true;
+    if (a.min > b.min) return false;
+
+    return a.sec < b.sec;
+}
+void insertionSort(std::vector<Log>& logs) {
+
+    for (int i = 1; i < logs.size(); i++) {
+
+        bool exit = false;
+
+        for (int j = i; j > 0 && !exit; j--) {
+
+            if (afterBefore(logs[j], logs[j - 1])) {
+
+                std::swap(logs[j], logs[j - 1]);
+
+            } else {
+
+                exit = true;
+            }
+        }
+    }
+}
+
+
 int main() {
 
     std::ifstream file("../data/log607-1.txt");     //lee el file 
@@ -45,7 +85,7 @@ int main() {
         char colon; //guarda aparte el caracter ':'
         timeStream >> hour >> colon >> min >> colon >> sec; 
 
-        
+
         //crear log
 
         Log event;
