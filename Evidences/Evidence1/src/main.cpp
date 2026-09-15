@@ -4,7 +4,7 @@
 #include <sstream> //nos deja separar en pedacitos el texto
 #include "../include/Log.h"
 #include <vector>
-
+#include <ctime>
 
 bool afterBefore(const Log& a, const Log& b) { 
 
@@ -106,7 +106,15 @@ int main() {
 
     }
 
+    clock_t start = clock(); //empezar el cronometro
+    
     insertionSort(logs);
+
+    clock_t end = clock(); //terminar el cronometro
+
+    double time = double(end - start) / CLOCKS_PER_SEC;
+
+    std::cout <<  "time: " << time << " sec\n";
     for (int i = 0; i < 5; i++) {
 
     std::cout << logs[i].year << "-" << logs[i].month << "-" << logs[i].day << " "<< logs[i].hour << ":"<< logs[i].min << ":"  << logs[i].sec << "\n";
