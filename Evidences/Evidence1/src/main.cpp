@@ -25,6 +25,7 @@ bool afterBefore(const Log& a, const Log& b) {
 
     return a.sec < b.sec;
 }
+
 void insertionSort(std::vector<Log>& logs) {
 
     for (int i = 1; i < logs.size(); i++) {
@@ -104,6 +105,12 @@ int main() {
         
 
     }
+
+    insertionSort(logs);
+    for (int i = 0; i < 5; i++) {
+
+    std::cout << logs[i].year << "-" << logs[i].month << "-" << logs[i].day << " "<< logs[i].hour << ":"<< logs[i].min << ":"  << logs[i].sec << "\n";
+}
     std::cout << "Total logs: " << logs.size() << "\n";
 
     return 0;
