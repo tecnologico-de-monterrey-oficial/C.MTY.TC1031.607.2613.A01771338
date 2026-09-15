@@ -1,21 +1,21 @@
 //Elena María Barrios Jordan
 //A01771338
 
-
+//define 
 #ifndef LOG_H
 #define LOG_H
 
 #include <string>
 
 struct Log {
-    int anio;
-    int mes;
-    int dia;
-    int hora;
-    int minuto;
-    int segundo;
+    int year;
+    int month;
+    int day;
+    int hour;
+    int min;
+    int sec;
     std::string ip;
-    std::string mensaje;
+    std::string message;
 };
 
 int mesANumero(const std::string& m);
