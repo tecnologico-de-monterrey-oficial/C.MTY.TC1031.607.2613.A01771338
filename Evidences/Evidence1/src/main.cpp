@@ -47,6 +47,43 @@ void insertionSort(std::vector<Log>& logs) {
 }
 
 
+
+int getPivot(std::vector<Log>& logs, int left, int right) {
+
+    int aux = left - 1;
+
+    int pivot = right;
+
+    for (int i = left; i < pivot; i++) {
+
+        if (afterBefore(logs[i], logs[pivot])) {
+
+            aux++;
+
+            std::swap(logs[aux], logs[i]);
+        }
+    }
+
+    aux++;
+
+    std::swap(logs[aux], logs[pivot]);
+
+    return aux;
+}
+
+void quickSort(std::vector<Log>& logs, int left, int right) {
+
+    if (left < right) {
+
+        int pivot = getPivot(logs, left, right);
+
+        quickSort(logs, left, pivot - 1);
+
+        quickSort(logs, pivot + 1, right);
+    }
+}
+
+
 int main() {
 
     std::ifstream file("../data/log607-1.txt");     //lee el file 
