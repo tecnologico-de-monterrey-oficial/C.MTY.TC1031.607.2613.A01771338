@@ -143,21 +143,29 @@ int main() {
 
     }
 
-    clock_t start = clock(); //empezar el cronometro
-    
-    insertionSort(logs);
 
-    clock_t end = clock(); //terminar el cronometro
+    //creamos una copia para poder medir los tiempos simultamenamente probando todas los algoritmos
 
-    double time = double(end - start) / CLOCKS_PER_SEC;
+    std::vector<Log> logsInsertion = logs;
+    std::vector<Log> logsQuick = logs;
 
-    std::cout <<  "time: " << time << " sec\n";
-    for (int i = 0; i < 5; i++) {
 
-    std::cout << logs[i].year << "-" << logs[i].month << "-" << logs[i].day << " "<< logs[i].hour << ":"<< logs[i].min << ":"  << logs[i].sec << "\n";
-}
-    std::cout << "Total logs: " << logs.size() << "\n";
 
+
+    clock_t start = clock();
+    insertionSort(logsInsertion);
+    clock_t end = clock();
+    double timeInsertion = double(end - start) / CLOCKS_PER_SEC;
+
+
+    start = clock();
+    quickSort(logsQuick, 0, logsQuick.size() - 1);
+    end = clock();
+     double timeQuick = double(end - start) / CLOCKS_PER_SEC;
+
+
+    std::cout << "Insertion Sort time: " << timeInsertion << " seconds\n";
+    std::cout << "Quick Sort time: " << timeQuick << " seconds\n";
     return 0;
 }
 
