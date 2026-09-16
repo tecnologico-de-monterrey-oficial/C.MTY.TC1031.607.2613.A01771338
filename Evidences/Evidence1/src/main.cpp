@@ -149,18 +149,93 @@ void mergeSort(std::vector<Log>& logs, int left, int right) {
     }
 }
 
+void swapSort(std::vector<Log>& logs) {
+
+    for (int i = 0; i < logs.size() - 1; i++) {
+
+        for (int j = i + 1; j < logs.size(); j++) {
+
+            if (afterBefore(logs[j], logs[i])) {
+
+                std::swap(logs[i], logs[j]);
+            }
+        }
+    }
+}
+
+
+void bubbleSort(std::vector<Log>& logs) {
+
+    bool change = true;
+
+    for (int i = logs.size() - 1; i > 0 && change; i--) {
+
+        change = false;
+
+        for (int j = 0; j < i; j++) {
+
+            if (afterBefore(logs[j + 1], logs[j])) {
+
+                change = true;
+
+                std::swap(logs[j], logs[j + 1]);
+            }
+        }
+    }
+}
+
+
+void selectionSort(std::vector<Log>& logs) {
+
+    for (int i = 0; i < logs.size() - 1; i++) {
+
+        int min = i;
+
+        for (int j = i + 1; j < logs.size(); j++) {
+
+            if (afterBefore(logs[j], logs[min])) {
+
+                min = j;
+            }
+        }
+
+        std::swap(logs[min], logs[i]);
+    }
+}
+
+
+
 
 int main() {
 
-    std::ifstream file("../data/log607-1.txt");     //lee el file 
+    int fileSelection;
 
-    if (!file) {
-        std::cout << "Error!! The file could no be opened.\n";
+    std::cout << "Choose a file:\n";
+    std::cout << "1. log607-1.txt\n";
+    std::cout << "2. log607-2.txt\n";
+    std::cin >> fileSelection;
+
+    std::string fileName;
+
+    if (fileSelection == 1) {
+        fileName = "../data/log607-1.txt";
+    } else if (fileSelection == 2) {
+        fileName = "../data/log607-2.txt";
+    } else {
+        std::cout << "Choose between file 1 or file 2.\n";
         return 1;
     }
 
-    
-    std::string line;  
+    std::ifstream file(fileName);     //lee el file 
+
+    if (!file) {
+       std::cout << "Error!! The file could no be opened.\n";
+        return 1;
+    }
+
+
+
+    std::string line;
     std::vector<Log> logs;  // Vector para almacenar muchos logs
 
     while (std::getline(file, line)) { //mientras haya lineas que leer las lee
@@ -215,9 +290,11 @@ int main() {
     std::vector<Log> logsInsertion = logs;
     std::vector<Log> logsQuick = logs;
     std::vector<Log> logsMerge = logs;
+    std::vector<Log> logsBubble = logs;
+    std::vector<Log> logsSelection = logs;
+    std::vector<Log> logsSwap = logs;
 
-
-
+   
 
     clock_t start = clock();
     insertionSort(logsInsertion);
@@ -237,9 +314,34 @@ int main() {
     double timeMerge = double(end - start) / CLOCKS_PER_SEC;
 
 
+    start = clock();
+    bubbleSort(logsBubble);
+    end = clock();
+    double timeBubble = double(end - start) / CLOCKS_PER_SEC;
+
+
+    start = clock();
+    selectionSort(logsSelection);
+    end = clock();
+    double timeSelection = double(end - start) / CLOCKS_PER_SEC;
+
+
+    start = clock();
+    swapSort(logsSwap);
+    end = clock();
+    double timeSwap = double(end - start) / CLOCKS_PER_SEC;
+
+
+
     std::cout << "Insertion Sort time: " << timeInsertion << " seconds\n";
     std::cout << "Quick Sort time: " << timeQuick << " seconds\n";
     std::cout << "Merge Sort time: " << timeMerge << " seconds\n";
+    std::cout << "Bubble Sort time: " << timeBubble << " seconds\n";
+    std::cout << "Selection Sort time: " << timeSelection << " seconds\n";
+    std::cout << "Swap Sort time: " << timeSwap << " seconds\n";
+
+
+    
     return 0;
 }
 
