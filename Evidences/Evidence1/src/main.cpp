@@ -83,6 +83,72 @@ void quickSort(std::vector<Log>& logs, int left, int right) {
     }
 }
 
+void merge(std::vector<Log>& logs, int left, int mid, int right) {
+
+    std::vector<Log> leftList;
+
+    for (int i = left; i <= mid; i++) {
+        leftList.push_back(logs[i]);
+    }
+
+    std::vector<Log> rightList;
+
+    for (int j = mid + 1; j <= right; j++) {
+        rightList.push_back(logs[j]);
+    }
+
+    int index = left;
+
+    int i = 0;
+    int j = 0;
+
+    while (i < leftList.size() && j < rightList.size()) {
+
+        if (afterBefore(leftList[i], rightList[j])) {
+
+            logs[index] = leftList[i];
+            i++;
+
+        } else {
+
+            logs[index] = rightList[j];
+            j++;
+        }
+
+        index++;
+    }
+
+    while (i < leftList.size()) {
+
+        logs[index] = leftList[i];
+
+        i++;
+        index++;
+    }
+
+    while (j < rightList.size()) {
+
+        logs[index] = rightList[j];
+
+        j++;
+        index++;
+    }
+}
+
+void mergeSort(std::vector<Log>& logs, int left, int right) {
+
+    if (left < right) {
+
+        int mid = (left + right) / 2;
+
+        mergeSort(logs, left, mid);
+
+        mergeSort(logs, mid + 1, right);
+
+        merge(logs, left, mid, right);
+    }
+}
+
 
 int main() {
 
@@ -148,6 +214,7 @@ int main() {
 
     std::vector<Log> logsInsertion = logs;
     std::vector<Log> logsQuick = logs;
+    std::vector<Log> logsMerge = logs;
 
 
 
@@ -161,11 +228,18 @@ int main() {
     start = clock();
     quickSort(logsQuick, 0, logsQuick.size() - 1);
     end = clock();
-     double timeQuick = double(end - start) / CLOCKS_PER_SEC;
+    double timeQuick = double(end - start) / CLOCKS_PER_SEC;
+
+
+    start = clock();
+    mergeSort(logsMerge, 0, logsMerge.size() - 1);
+    end = clock();
+    double timeMerge = double(end - start) / CLOCKS_PER_SEC;
 
 
     std::cout << "Insertion Sort time: " << timeInsertion << " seconds\n";
     std::cout << "Quick Sort time: " << timeQuick << " seconds\n";
+    std::cout << "Merge Sort time: " << timeMerge << " seconds\n";
     return 0;
 }
 
