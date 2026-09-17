@@ -250,9 +250,24 @@ int main() {
     cin >> ChoosenAlgorithm;
 
     if (ChoosenAlgorithm < 1 || ChoosenAlgorithm > 6) {
-        cout << "Invalid, choose a valid sorting algorithm.\n";
+        cout << "Invalid, choose a valid sorting algorithm."<< endl;
         return 1;
     }
+
+
+    cout << "How long do you think it would take to sort your file in seconds? :" << endl;
+    double predictedTime;
+    cin >> predictedTime;
+
+    
+
+    cout << "Why do you think it will take that long?\n";
+    string predictedReason;
+    cin.ignore();
+    getline(cin, predictedReason);
+
+    cout <<"Sorting file...." << endl;
+
 
     string line;
     vector<Log> logs;  // Vector para almacenar muchos logs
@@ -304,39 +319,46 @@ int main() {
     }
 
 
-    //creamos una copia para poder medir los tiempos simultamenamente probando todas los algoritmos
-
-    vector<Log> logsToSort = logs;
-
-
     clock_t start = clock();
 
+    string AlgorithmName;
     if (ChoosenAlgorithm == 1) {
-       insertionSort(logsToSort);
+        AlgorithmName = "Insertion Sort";
+       insertionSort(logs);
     }
     else if (ChoosenAlgorithm == 2) {
-        quickSort(logsToSort, 0, logsToSort.size() - 1);
+        AlgorithmName = "Quick Sort";
+        quickSort(logs, 0, logs.size() - 1);
     }
     else if (ChoosenAlgorithm == 3) {
-        mergeSort(logsToSort, 0, logsToSort.size() - 1);
+        AlgorithmName = "Merge Sort";
+        mergeSort(logs, 0, logs.size() - 1);
     }
     else if (ChoosenAlgorithm == 4) {
-        bubbleSort(logsToSort);
+        AlgorithmName = "Bubble Sort";
+        bubbleSort(logs);
     }
     else if (ChoosenAlgorithm == 5) {
-        selectionSort(logsToSort);
+        AlgorithmName = "Selection Sort";
+        selectionSort(logs);
     }
     else if (ChoosenAlgorithm == 6) {
-        swapSort(logsToSort);
+        AlgorithmName = "Swap Sort";
+        swapSort(logs);
     }
 
     clock_t end = clock();
     double sortingTime = double(end - start) / CLOCKS_PER_SEC;
 
-    cout << "\nSorting time: " << sortingTime << " seconds\n";
+    cout << "File processed: " << fileName << endl;
+    cout << "Algorithm used: " << AlgorithmName << endl;
+    cout << "Sorting time: " << sortingTime << " seconds" << endl;
+    cout << "Predicted time: " << predictedTime << " seconds" << endl;
+    cout << "Predicted reason: " << predictedReason << endl;
 
     return 0;
 }
+
 
 
 
