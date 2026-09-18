@@ -7,7 +7,9 @@
 #include <ctime>
 using namespace std;
 
-bool afterBefore(const Log& a, const Log& b) { 
+
+
+bool afterBefore(const Log& a, const Log& b) {
 
     if (a.year < b.year) return true;
     if (a.year > b.year) return false;
@@ -47,9 +49,6 @@ void insertionSort(vector<Log>& logs) {
     }
     
 }
-
-
-
 
 
 int getPivot(vector<Log>& logs, int left, int right) {
@@ -211,7 +210,7 @@ void selectionSort(vector<Log>& logs) {
 int main() {
 
 
-    cout << "MENU\n";
+    cout << "--------MENU--------\n";
     cout << "Hi!! Choose a file to sort:\n";
 
     int fileSelection; // Variable para seleccionar el archivo
@@ -259,7 +258,6 @@ int main() {
     double predictedTime;
     cin >> predictedTime;
 
-    
 
     cout << "Why do you think it will take that long?\n";
     string predictedReason;
@@ -322,39 +320,73 @@ int main() {
     clock_t start = clock();
 
     string AlgorithmName;
+    string bestCase;
+    string worstCase;
+    
     if (ChoosenAlgorithm == 1) {
         AlgorithmName = "Insertion Sort";
-       insertionSort(logs);
+        bestCase = "O(n)";
+        worstCase = "O(n^2)";
+        insertionSort(logs);
     }
     else if (ChoosenAlgorithm == 2) {
         AlgorithmName = "Quick Sort";
+        bestCase = "O(n log n)";
+        worstCase = "O(n^2)";
         quickSort(logs, 0, logs.size() - 1);
     }
     else if (ChoosenAlgorithm == 3) {
         AlgorithmName = "Merge Sort";
+        bestCase = "O(n log n)";
+        worstCase = "O(n log n)";
         mergeSort(logs, 0, logs.size() - 1);
     }
     else if (ChoosenAlgorithm == 4) {
         AlgorithmName = "Bubble Sort";
+        bestCase = "O(n)";
+        worstCase = "O(n^2)";
         bubbleSort(logs);
     }
     else if (ChoosenAlgorithm == 5) {
         AlgorithmName = "Selection Sort";
+        bestCase = "O(n^2)";
+        worstCase = "O(n^2)";   
         selectionSort(logs);
     }
     else if (ChoosenAlgorithm == 6) {
         AlgorithmName = "Swap Sort";
+        bestCase = "O(n)";
+        worstCase = "O(n^2)";
         swapSort(logs);
     }
 
     clock_t end = clock();
     double sortingTime = double(end - start) / CLOCKS_PER_SEC;
+    double difference = abs(sortingTime - predictedTime);
+    double differencePercentage = (difference / sortingTime) * 100;
 
+
+    
+
+
+    cout << "--------Data and Results-------" << endl;
     cout << "File processed: " << fileName << endl;
     cout << "Algorithm used: " << AlgorithmName << endl;
     cout << "Sorting time: " << sortingTime << " seconds" << endl;
+    cout << endl;
     cout << "Predicted time: " << predictedTime << " seconds" << endl;
     cout << "Predicted reason: " << predictedReason << endl;
+    cout << "Prediction difference: " << difference << " seconds" << endl;
+    cout << "Error in the prediction: " << differencePercentage << "%" << endl;
+    if (differencePercentage <= 20) {
+    cout << "Prediction matched the actual result.\n";
+    } else {
+    cout << "Prediction did not match the actual result.\n";
+}
+    cout << endl;
+    cout << "Data size: " << logs.size() << endl;
+    cout << "Best case: " << bestCase << endl;
+    cout << "Worst case: " << worstCase << endl;
 
     return 0;
 }
