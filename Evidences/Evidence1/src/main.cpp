@@ -527,6 +527,54 @@ int main() {
     cout << "Best case: " << bestCase << endl;
     cout << "Worst case: " << worstCase << endl;
 
+    
+    
+    
+    
+    
+    ofstream output("../output607.txt");
+
+    if (!output) {
+
+        cout << "Error!! The output file could not be created.\n";
+
+    } else {
+
+    for (int i = 0; i < logs.size(); i++) {
+
+        output << logs[i].year << " ";
+
+        output << logs[i].month << " ";
+
+        output << logs[i].day << " ";
+
+        output << logs[i].hour << ":";
+
+        output << logs[i].min << ":";
+
+        output << logs[i].sec << " ";
+
+        output << logs[i].ip << " ";
+
+        output << logs[i].message << "\n";
+    }
+
+    output.close();
+
+    cout << "\nSorted file saved as output607.txt\n";
+}
+
+
+
+
+
+
+
+
+
+
+
+
     return 0;
 }
 
