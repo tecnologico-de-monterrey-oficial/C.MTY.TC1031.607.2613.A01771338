@@ -267,8 +267,18 @@ void selectionSort(vector<Log>& logs) {
 }
 
 
-int main() {
 
+
+
+
+
+
+
+
+int main() {
+    string again;
+
+    do {
 
     cout << "--------MENU--------\n";
     cout << "Hi!! Choose a file to sort:\n";
@@ -564,16 +574,10 @@ int main() {
     cout << "\nSorted file saved as output607.txt\n";
 }
 
+    cout << "\nDo you want to run another test? (yes/no): ";
+    cin >> again;
 
-
-
-
-
-
-
-
-
-
+    } while (again == "yes");
 
     return 0;
 }
