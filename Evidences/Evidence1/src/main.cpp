@@ -29,6 +29,66 @@ bool afterBefore(const Log& a, const Log& b) {
     return a.sec < b.sec;
 }
 
+bool sameDateTime(const Log& a, const Log& b) {
+
+    return a.year == b.year &&
+           a.month == b.month &&
+           a.day == b.day &&
+           a.hour == b.hour &&
+           a.min == b.min &&
+           a.sec == b.sec;
+}
+
+int startBinarySearch(const vector<Log>& logs, const Log& target) { //lo usaremos para la busqueda binaria
+
+    int left = 0;
+    int right = logs.size() - 1;
+    int answer = logs.size();
+
+    while (left <= right) {
+
+        int mid = (left + right) / 2;
+
+        if (afterBefore(logs[mid], target)) {
+
+            left = mid + 1;
+
+        } else {
+
+            answer = mid;    // aqui se guarda la respuesta para despues checar si hay duplicados
+            right = mid - 1;
+        }
+    }
+
+    return answer;
+}
+
+int endBinarySearch(const vector<Log>& logs, const Log& target) {
+
+    int left = 0;
+    int right = logs.size() - 1;
+    int answer = logs.size();
+
+    while (left <= right) {
+
+        int mid = (left + right) / 2;
+
+        if (afterBefore(target, logs[mid])) {
+
+            answer = mid;
+            right = mid - 1;
+
+        } else {
+
+            left = mid + 1;
+        }
+    }
+
+    return answer;
+}
+
+
+
 void insertionSort(vector<Log>& logs) {
 
     for (int i = 1; i < logs.size(); i++) {
@@ -355,7 +415,7 @@ int main() {
     }
     else if (ChoosenAlgorithm == 6) {
         AlgorithmName = "Swap Sort";
-        bestCase = "O(n)";
+        bestCase = "O(n^2)";
         worstCase = "O(n^2)";
         swapSort(logs);
     }
@@ -366,9 +426,88 @@ int main() {
     double differencePercentage = (difference / sortingTime) * 100;
 
 
-    
 
 
+
+    cout << endl << "-------- Search an specific date and time --------" << endl;
+
+    Log startDate;
+    Log endDate;
+
+    cout << "\nEnter the START date and time:\n";
+
+    cout << "Year: ";
+    cin >> startDate.year;
+
+    cout << "Month: ";
+    cin >> startDate.month;
+
+    cout << "Day: ";
+    cin >> startDate.day;
+
+    cout << "Hour: ";
+    cin >> startDate.hour;
+
+    cout << "Minute: ";
+    cin >> startDate.min;
+
+    cout << "Second: ";
+    cin >> startDate.sec;
+
+    cout << "\nEnter the END date and time:\n";
+
+    cout << "Year: ";
+    cin >> endDate.year;
+
+    cout << "Month: ";
+    cin >> endDate.month;
+
+    cout << "Day: ";
+    cin >> endDate.day;
+
+    cout << "Hour: ";
+    cin >> endDate.hour;
+
+    cout << "Minute: ";
+    cin >> endDate.min;
+
+    cout << "Second: ";
+    cin >> endDate.sec;
+
+
+
+    //funciones de la busqueda binaria
+    int startIndex = startBinarySearch(logs, startDate);
+    int endIndex = endBinarySearch(logs, endDate);
+
+
+
+    if (startIndex == logs.size() || startIndex >= endIndex) {
+
+        cout << "No records were found in this range, choose another one.";
+
+    } else {
+
+
+
+        //IA me lo ordenó 
+    for (int i = startIndex; i < endIndex; i++) {
+
+        cout << logs[i].year << "-";
+        cout << logs[i].month << "-";
+        cout << logs[i].day << " ";
+
+        cout << logs[i].hour << ":";
+        cout << logs[i].min << ":";
+        cout << logs[i].sec << " ";
+
+        cout << logs[i].ip << " ";
+        cout << logs[i].message << "\n";
+    }
+}
+
+
+    cout <<endl;
     cout << "--------Data and Results-------" << endl;
     cout << "File processed: " << fileName << endl;
     cout << "Algorithm used: " << AlgorithmName << endl;
