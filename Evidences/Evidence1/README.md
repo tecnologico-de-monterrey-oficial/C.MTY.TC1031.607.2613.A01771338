@@ -59,7 +59,20 @@ You can choose between:
 
 The sorted results are saved in:  output607.txt
 
-VIDEO: https://youtu.be/m7xuFiZ1oms
+
+Project files
+data/log607-1.txt - Randomly unordered log file
+data/log607-2.txt - Nearly ordered log file
+include/Log.h - Log structure
+src/Log.cpp - Month conversion function
+src/main.cpp - Main program, sorting algorithms, search, and output
+output607.txt - Sorted output file
+docs/EvidenciasPruebas.pdf - Testing evidence
+docs/ReflexEvidencia1.pdf - Project reflection
+
+## Video
+
+VIDEO LINK : https://youtu.be/m7xuFiZ1oms
 
 
 
