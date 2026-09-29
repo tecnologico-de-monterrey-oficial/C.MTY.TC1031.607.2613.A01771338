@@ -1,6 +1,8 @@
 #ifndef LinkedList_h
 #define LinkedList_h
 #include "Node.h"
+using namespace std;
+#include <iostream>
 
 template <typename T>
 class LinkedList {
@@ -28,27 +30,47 @@ template <typename T>
 void LinkedList<T>::push_back(T data) {
     Node<T>* node = new Node<T>(data);  // Crear el nodo nuevo que queremos meter al final
 
-    // Caso especial: Si la lista está vacía, el primero es también el último
-    if (head == nullptr) {
+    if (head == nullptr) { //lista vacía
         head = node;
     } 
-    // Caso normal: Si la lista ya tiene elementos, hay que buscar el final
-    else {
-        // Creamos un apuntador auxiliar para buscar el último nodo
+    else { // la lista ya tiene elementos, hay que buscar el final
+        
         Node<T>* aux = head;
         
-        // Caminamos por la lista hasta encontrar el nodo cuya flecha 'next' apunte a nullptr
         while (aux->next != nullptr) {
             aux = aux->next;
         }
-        
-        // Cuando lo encontramos, hacemos que ese último nodo apunte a nuestro nodo nuevo
         aux->next = node;
     }
-    
-    // Incrementamos el tamaño de la lista
     size++;
 }
+
+template<typename T>
+void LinkedList<T>::insert(int index, T data){
+    //Checamos que la posición exisyta
+    if (index >= 0 && index < size){
+        int auxIndex = 0;
+        aux = aux->node
+    }
+
+}
+
+template<typename T>
+void LinkedList<T> :: deleteData(T data){
+    if (head != nullptr) //lista no vacía
+
+        if (head->data==data){ //quiero borrar el primer elemento
+            head = head->next; 
+
+            delete aux; //borramos el primer elemento
+        } else{
+            Node<T>auxPrev
+
+            Node<T>* aux = head->next
+        }
+}
+
+
 
 
 
