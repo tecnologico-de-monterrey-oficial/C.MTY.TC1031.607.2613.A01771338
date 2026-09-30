@@ -83,7 +83,7 @@ void LinkedList<T>::insert(int index, T data) { //agregamos en una posicion espe
 }
 
 template <typename T>
-bool LinkedList<T>::deleteData(T data) { //borramos en alguna posicion
+bool LinkedList<T>::deleteData(T data) { //borramos en alguna posicion el valor que pidan
     if (head == nullptr) return false; //si la lista esta vacia da false 
 
     if (head->data == data) {  //si el primer nodo es el que queremos borrar
@@ -134,7 +134,7 @@ bool LinkedList<T>::deleteAt(int index) {
 
 template <typename T>
 T LinkedList<T>::getData(int index) {
-    if (index < 0 || index >= size) {
+    if (index < 0 && index >= size) {
         cout << "Error! that position is invalid" << endl;
         return T();
     }
@@ -160,7 +160,7 @@ void LinkedList<T>::updateData(T oldData, T newData) {
 
 template <typename T>
 void LinkedList<T>::updateAt(int index, T newData) {
-    if (index < 0 || index >= size) {
+    if (index < 0 && index >= size) {
         cout << "Error! that position is invalid" << endl;
         return;
     }
