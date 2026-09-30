@@ -1,0 +1,83 @@
+=== PRUEBAS INT ===
+
+1. push_back(10), push_back(20), push_back(30)
+10-20-30
+
+2. push_front(5)
+5-10-20-30
+
+3. insert(2, 15)
+5-10-15-20-30
+
+4. deleteData(15)
+5-10-20-30
+
+5. deleteAt(0)
+10-20-30
+
+6. getData(1)
+Dato: 20
+
+7. updateData(20, 99)
+10-99-30
+
+8. updateAt(0, 77)
+77-99-30
+
+9. findData(30)
+Posicion: 2
+
+10. Leer con [] : lista[1]
+Dato: 99
+
+11. Escribir con [] : lista[1] = 55
+77-55-30
+
+12. Igualar lista con otra
+100-200-300
+
+13. Imprimir lista final
+100-200-300
+
+=== PRUEBAS STRING ===
+
+1. push_back(hola), push_back(mundo), push_back(c++)
+hola-mundo-c++
+
+2. push_front(inicio)
+inicio-hola-mundo-c++
+
+3. insert(2, medio)
+inicio-hola-medio-mundo-c++
+
+4. deleteData(medio)
+Resultado: 1
+inicio-hola-mundo-c++
+
+5. deleteAt(0)
+Resultado: 1
+hola-mundo-c++
+
+6. getData(1)
+Dato: mundo
+
+7. updateData(mundo, tierra)
+hola-tierra-c++
+
+8. updateAt(0, primero)
+primero-tierra-c++
+
+9. findData(c++)
+Posicion: 2
+
+10. Leer con [] : lista[1]
+Dato: tierra
+
+11. Escribir con [] : lista[1] = nuevo
+primero-nuevo-c++
+
+12. Igualar lista con otra
+uno-dos-tres
+
+13. Imprimir lista final
+uno-dos-tres
