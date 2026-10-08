@@ -138,7 +138,7 @@ int getPivot(vector<T> &list, int left, int right) {
     for (int i=left; i<pivot; i++) {
        
 
-
+        
         comparaciones++;
         if (list[pivot] > list[i]) {
             aux++; // incrementamos el valor de i para que vaya al siguiente elemento
