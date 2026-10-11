@@ -28,6 +28,7 @@ void Stack<T>::pop() {
         Node<T>* aux = head;
         head = head->next;
         delete aux;
+        size--;
     }
 }
 
@@ -36,6 +37,7 @@ void Stack<T>::push(T data) {
     Node<T>* nuevo = new Node<T>(data);
     nuevo->next = head;
     head = nuevo;
+    size++;
 }
 
 template <typename T>

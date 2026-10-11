@@ -40,6 +40,7 @@ public:
 };
 
 
+
 template <typename T>
 void LinkedList<T>::push_front(T data) { //agrega al frente
     Node<T>* node = new Node<T>(data);
@@ -64,7 +65,11 @@ void LinkedList<T>::push_back(T data) { //agrega al final
 
 template <typename T>
 void LinkedList<T>::insert(int index, T data) { //agregamos en una posicion especifica
-    if (index < 0 && index >= size) {
+    if (index == 0) {
+    push_front(data);
+    return;
+}
+    if (index < 0 || index >= size) {
         cout << "Error! that place is invalid" << endl;
         return;
     }
