@@ -3,6 +3,7 @@
 #ifndef DoublyLinkedList_h
 #define DoublyLinkedList_h
 #include "Node.h"
+#include <vector>
 #include <iostream>    // para imprimir
 using namespace std;
 
@@ -71,7 +72,7 @@ void DoublyLinkedList<T>::addLast(T data) {
 
 template <typename T>
 void DoublyLinkedList<T>::insert(int index, T data) {
-    if (index < 0 && index >= size) {
+    if (index < 0 || index >= size) {
         cout << "Índice inválido";
     }
 
@@ -105,7 +106,7 @@ bool DoublyLinkedList<T>::deleteData(T data) {
 
 template <typename T>
 bool DoublyLinkedList<T>::deleteAt(int index) {
-    if (index < 0 && index >= size) return false;
+    if (index < 0 || index >= size) return false;
 
     if (size == 1) {
         delete head;
@@ -145,7 +146,7 @@ bool DoublyLinkedList<T>::deleteAt(int index) {
 
 template <typename T>
 T DoublyLinkedList<T>::getData(int index) {
-    if (index < 0 && index >= size) {
+    if (index < 0 || index >= size) {
         cout<< "Índice inválido"<<endl;
     }
     NodeD<T>* aux = head;
@@ -324,7 +325,7 @@ template <typename T>
 T& DoublyLinkedList<T>::operator[](int index) {
     if (index < 0 || index >= size) {
         cout << "Índice inválido" << endl;
-        return nullptr;
+        return head->data; 
     }
     NodeD<T>* aux = head;
     for (int i = 0; i < index; i++) {
