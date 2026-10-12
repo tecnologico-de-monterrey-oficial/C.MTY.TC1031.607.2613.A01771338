@@ -1,7 +1,7 @@
 #include <iostream>
-#include "../include/LinkedList.h"
-#include "../include/Stack.h"
-#include "../include/Queue.h"
+#include "LinkedList.h"
+#include "Stack.h"
+#include "Queue.h"
 using namespace std;
 
 void probarLinkedList() {
