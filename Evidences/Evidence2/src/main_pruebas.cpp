@@ -1,341 +1,138 @@
-#ifndef DOUBLYLINKEDLIST_H
-#define DOUBLYLINKEDLIST_H
-
-#include "Node.h"
-#include <vector>
 #include <iostream>
+#include "../include/LinkedList.h"
+#include "../include/Stack.h"
+#include "../include/Queue.h"
 using namespace std;
 
-template <typename T>
-class DoublyLinkedList {
-private:
-    NodeD<T>* head;
-    NodeD<T>* tail;
-    int size;
+void probarLinkedList() {
+    cout << "PRUEBAS DE LINKEDLIST " << endl;
 
-public:
-    DoublyLinkedList() : head(nullptr), tail(nullptr), size(0) {}
+    LinkedList<int> lista;
 
+    // Caso 1: lista vacía
+    cout << "Lista vacía" << endl;
+    cout << "Tamaño: " << lista.getSize() << endl;
+    cout << "Buscar 5: " << lista.findData(5) << "no encontrado" << endl;
+    cout << "Borrar en posicion 0: " << (lista.deleteAt(0) ? "si" : "no") << endl;
+    cout << "Borrar dato 5: " << (lista.deleteData(5) ? "si" : "no") << endl;
 
-    ~DoublyLinkedList() {   // Destructor agregado por IA
-        clear();
-    }
+    // Caso 2: un solo elemento
+    cout << "Un solo elemento " << endl;
+    lista.push_back(10);
+    lista.print();
+    cout << "Tamaño: " << lista.getSize() << endl;
+    cout << "Buscar 10: " << lista.findData(10) << endl;
+    cout << "Buscar 99: " << lista.findData(99) << endl;
 
-    void addFirst(T data);
-    void addLast(T data);
-    void insert(int index, T data);
-    bool deleteData(T data);
-    bool deleteAt(int index);
-    T getData(int index);
-    void updateData(T oldData, T newData);
-    void updateAt(int index, T newData);
-    int findData(T data);
+    // Caso 3: insertar al inicio y al final
+    cout << "Insertar en los extremos " << endl;
+    lista.push_front(5);
+    lista.push_back(15);
+    lista.push_front(1);
+    lista.push_back(20);
+    cout << "Lista: ";
+    lista.print();
+    cout << "Tamaño: " << lista.getSize() << endl;
 
-    void clear();
-    void sort();
-    void duplicate();
-    void removeDuplicates();
-    void print();
+    // Caso 4: borrar en los extremos
+    cout << "Borrar en los extremos" << endl;
+    lista.deleteAt(0);
+    lista.print();
+    lista.deleteData(20);
+    lista.print();
 
-    T& operator[](int index);
-    DoublyLinkedList<T>& operator=(const DoublyLinkedList<T>& other);
-
-    int getSize() { return size; }
-};
-
-
-template <typename T>
-void DoublyLinkedList<T>::addFirst(T data) {
-    NodeD<T>* nuevo = new NodeD<T>(data);
-    if (head == nullptr) {
-        head = nuevo;
-        tail = nuevo;
-    } else {
-        nuevo->next = head;
-        head->prev = nuevo;
-        head = nuevo;
-    }
-    size++;
+    // Caso 5: accesar haciendo uso del índice
+    cout << "Acceso por índice" << endl;
+    cout << "Elemento en posición 0: " << lista[0] << endl;
+    cout << "Elemento en posición 1: " << lista[1] << endl;
 }
 
-template <typename T>
-void DoublyLinkedList<T>::addLast(T data) {
-    NodeD<T>* nuevo = new NodeD<T>(data);
-    if (head == nullptr) {
-        head = nuevo;
-        tail = nuevo;
-    } else {
-        nuevo->prev = tail;
-        tail->next = nuevo;
-        tail = nuevo;
+void probarStack() {
+    cout << "PRUEBAS DE STACK" << endl;
+
+    Stack<int> pila;
+
+    // Caso 1: pila vacía
+    cout << "Pila vacia " << endl;
+    cout << "Esta vacia? " << (pila.empty() ? "si" : "no") << endl;
+    cout << "Tamaño: " << pila.getSize() << endl;
+    cout << "Pop sobre vacia: ";
+    pila.pop(); 
+    cout << "Top: " << pila.getTop() << " (0 = vacia)" << endl;
+
+    // Caso 2: Un solo elemento
+    cout << "Un solo elemento " << endl;
+    pila.push(10);
+    cout << "Tamaño: " << pila.getSize() << endl;
+    cout << "Top: " << pila.getTop() << endl;
+    cout << "Esta vacia? " << (pila.empty() ? "si" : "no") << endl;
+
+    // Caso 3: varios elementos en LIFO
+    cout << "Varios elementos en LIFO " << endl;
+    pila.push(20);
+    pila.push(30);
+    pila.push(40);
+    cout << "Pila actual: ";
+    pila.print();
+    cout << "Top: " << pila.getTop() << endl;
+    cout << "Tamano: " << pila.getSize() << endl;
+
+    // Caso 4: pop en orden LIFO
+    cout << "Pop en orden LIFO " << endl;
+    while (!pila.empty()) {
+        cout << "Pop: " << pila.getTop() << endl;       
+        pila.pop();
     }
-    size++;
+    cout << "Tamano final: " << pila.getSize() << endl;
+
+    cout << " Fin Stack " << endl;
 }
 
-template <typename T>
-void DoublyLinkedList<T>::insert(int index, T data) {
-    if (index < 0 || index >= size) {
-        cout << "Índice inválido" << endl;
-        return;   //  AGREGADO por IA
-    }
+void probarQueue() {
+    cout << "PRUEBAS DE QUEUE " << endl;
 
-    if (index == size - 1) {
-        addLast(data);
-        return;
-    }
-    if (index == 0) {
-        addFirst(data);
-        return;
-    }
+    Queue<int> fila;
 
-    NodeD<T>* aux = head;
-    for (int i = 0; i < index; i++) {
-        aux = aux->next;
+    // Caso 1: fila vacía
+    cout << " Fila vacia " << endl;
+    cout << "Esta vacia? " << (fila.empty() ? "si" : "no") << endl;
+    cout << "Tamaño: " << fila.getSize() << endl;
+    cout << "Dequeue sobre vacia: ";
+    fila.pop();  
+    cout << "Front: " << fila.front() <<endl;
+
+    // Caso 2: un solo elemento
+    cout << "Un solo elemento " << endl;
+    fila.push(10);
+    cout << "Tamaño: " << fila.getSize() << endl;
+    cout << "Front: " << fila.front() << endl;
+    cout << "Esta vacia? " << (fila.empty() ? "si" : "no") << endl;
+
+    // Caso 3: varios elementos (FIFO)
+    cout << "Varios elementos en FIFO " << endl;
+    fila.push(20);
+    fila.push(30);
+    fila.push(40);
+    cout << "Fila actual: ";
+    fila.print();
+    cout << "Front: " << fila.front() << endl;
+    cout << "Tamaño: " << fila.getSize() << endl;
+
+    // Caso 4: dequeue en orden FIFO
+    cout << "Dequeue en orden FIFO " << endl;
+    while (!fila.empty()) {
+        cout << "Dequeue: " << fila.front() << endl;
+        fila.pop();
     }
-    NodeD<T>* nuevo = new NodeD<T>(data);
-    nuevo->prev = aux;
-    nuevo->next = aux->next;
-    aux->next->prev = nuevo;
-    aux->next = nuevo;
-    size++;
+    cout << "Tamaño final: " << fila.getSize() << endl;
+
+    cout << " Fin Queue " << endl;
 }
 
-template <typename T>
-bool DoublyLinkedList<T>::deleteData(T data) {
-    int pos = findData(data);
-    if (pos == -1) return false;
-    return deleteAt(pos);
+int main() {
+    cout << "Pruebas para la Parte A (Linked List, Stack, Queue)" << endl;
+    probarLinkedList();
+    probarStack();
+    probarQueue();
+    return 0;
 }
-
-template <typename T>
-bool DoublyLinkedList<T>::deleteAt(int index) {
-    if (index < 0 || index >= size) return false;
-
-    if (size == 1) {
-        delete head;
-        head = nullptr;
-        tail = nullptr;
-        size--;
-        return true;
-    }
-    if (index == 0) {
-        NodeD<T>* aux = head;
-        head = head->next;
-        head->prev = nullptr;
-        delete aux;
-        size--;
-        return true;
-    }
-    if (index == size - 1) {
-        NodeD<T>* aux = tail;
-        tail = tail->prev;
-        tail->next = nullptr;
-        delete aux;
-        size--;
-        return true;
-    }
-
-    NodeD<T>* aux = head;
-    for (int i = 0; i < index; i++) {
-        aux = aux->next;
-    }
-    aux->prev->next = aux->next;
-    aux->next->prev = aux->prev;
-    delete aux;
-    size--;
-    return true;
-}
-
-template <typename T>
-T DoublyLinkedList<T>::getData(int index) {
-    if (index < 0 || index >= size) {
-        cout << "Índice inválido" << endl;
-        return T();   //  AGREGADO por IA
-    }
-    NodeD<T>* aux = head;
-    for (int i = 0; i < index; i++) {
-        aux = aux->next;
-    }
-    return aux->data;
-}
-
-template <typename T>
-void DoublyLinkedList<T>::updateData(T oldData, T newData) {
-    NodeD<T>* aux = head;
-    while (aux != nullptr) {
-        if (aux->data == oldData) {
-            aux->data = newData;
-            return;
-        }
-        aux = aux->next;
-    }
-    cout << "Dato no encontrado" << endl;
-}
-
-template <typename T>
-void DoublyLinkedList<T>::updateAt(int index, T newData) {
-    if (index < 0 || index >= size) {
-        cout << "Índice inválido" << endl;
-        return;
-    }
-    NodeD<T>* aux = head;
-    for (int i = 0; i < index; i++) {
-        aux = aux->next;
-    }
-    aux->data = newData;
-}
-
-template <typename T>
-int DoublyLinkedList<T>::findData(T data) {
-    NodeD<T>* aux = head;
-    int pos = 0;
-    while (aux != nullptr) {
-        if (aux->data == data) return pos;
-        aux = aux->next;
-        pos++;
-    }
-    return -1;
-}
-
-template <typename T>
-void DoublyLinkedList<T>::clear() {
-    while (head != nullptr) {
-        NodeD<T>* aux = head;
-        head = head->next;
-        delete aux;
-    }
-    tail = nullptr;
-    size = 0;
-}
-
-template <typename T>
-void swapVec(vector<T> &list, int i, int j) {
-    T temp = list[i];
-    list[i] = list[j];
-    list[j] = temp;
-}
-
-template <typename T>
-int getPivot(vector<T> &list, int left, int right) {
-    int aux = left - 1;
-    int pivot = right;
-    for (int i = left; i < pivot; i++) {
-        if (list[pivot] > list[i]) {
-            aux++;
-            swapVec(list, aux, i);
-        }
-    }
-    aux++;
-    swapVec(list, aux, pivot);
-    return aux;
-}
-
-template <typename T>
-void quickSort(vector<T> &list, int left, int right) {
-    if (left < right) {
-        int pivot = getPivot(list, left, right);
-        quickSort(list, left, pivot - 1);
-        quickSort(list, pivot + 1, right);
-    }
-}
-
-template <typename T>
-void DoublyLinkedList<T>::sort() {
-    if (size < 2) return;
-
-    vector<T> datos;
-    NodeD<T>* aux = head;
-    while (aux != nullptr) {
-        datos.push_back(aux->data);
-        aux = aux->next;
-    }
-
-    quickSort(datos, 0, datos.size() - 1);
-
-    aux = head;
-    int i = 0;
-    while (aux != nullptr) {
-        aux->data = datos[i];
-        aux = aux->next;
-        i++;
-    }
-}
-
-template <typename T>
-void DoublyLinkedList<T>::duplicate() {
-    NodeD<T>* aux = head;
-    while (aux != nullptr) {
-        NodeD<T>* nuevo = new NodeD<T>(aux->data);
-        nuevo->next = aux->next;
-        nuevo->prev = aux;
-        if (aux->next != nullptr) {
-            aux->next->prev = nuevo;
-        } else {
-            tail = nuevo;
-        }
-        aux->next = nuevo;
-        aux = nuevo->next;
-        size++;
-    }
-}
-
-template <typename T>
-void DoublyLinkedList<T>::removeDuplicates() {
-    if (size < 2) return;
-    sort();
-    NodeD<T>* aux = head;
-    while (aux != nullptr && aux->next != nullptr) {
-        if (aux->data == aux->next->data) {
-            NodeD<T>* repetido = aux->next;
-            aux->next = repetido->next;
-            if (repetido->next != nullptr) {
-                repetido->next->prev = aux;
-            } else {
-                tail = aux;
-            }
-            delete repetido;
-            size--;
-        } else {
-            aux = aux->next;
-        }
-    }
-}
-
-template <typename T>
-void DoublyLinkedList<T>::print() {
-    NodeD<T>* aux = head;
-    while (aux != nullptr) {
-        cout << aux->data;
-        aux = aux->next;
-        if (aux != nullptr) cout << "-";
-    }
-    cout << endl;
-}
-
-template <typename T>
-T& DoublyLinkedList<T>::operator[](int index) {
-    static T dummy = T();       //  AGREGADO por IA
-    if (index < 0 || index >= size) {
-        cout << "Índice inválido" << endl;
-        return dummy;           //  AGREGADO por IA
-    }
-    NodeD<T>* aux = head;
-    for (int i = 0; i < index; i++) {
-        aux = aux->next;
-    }
-    return aux->data;
-}
-
-template <typename T>
-DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(const DoublyLinkedList<T>& other) {
-    if (this == &other) return *this;
-    clear();
-    NodeD<T>* aux = other.head;
-    while (aux != nullptr) {
-        addLast(aux->data);
-        aux = aux->next;
-    }
-    return *this;
-}
-
-#endif

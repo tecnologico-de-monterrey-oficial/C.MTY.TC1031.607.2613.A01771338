@@ -1,0 +1,341 @@
+#ifndef DOUBLYLINKEDLIST_H
+#define DOUBLYLINKEDLIST_H
+
+#include "Node.h"
+#include <vector>
+#include <iostream>
+using namespace std;
+
+template <typename T>
+class DoublyLinkedList {
+private:
+    NodeD<T>* head;
+    NodeD<T>* tail;
+    int size;
+
+public:
+    DoublyLinkedList() : head(nullptr), tail(nullptr), size(0) {}
+
+
+    ~DoublyLinkedList() {   // Destructor agregado por IA
+        clear();
+    }
+
+    void addFirst(T data);
+    void addLast(T data);
+    void insert(int index, T data);
+    bool deleteData(T data);
+    bool deleteAt(int index);
+    T getData(int index);
+    void updateData(T oldData, T newData);
+    void updateAt(int index, T newData);
+    int findData(T data);
+
+    void clear();
+    void sort();
+    void duplicate();
+    void removeDuplicates();
+    void print();
+
+    T& operator[](int index);
+    DoublyLinkedList<T>& operator=(const DoublyLinkedList<T>& other);
+
+    int getSize() { return size; }
+};
+
+
+template <typename T>
+void DoublyLinkedList<T>::addFirst(T data) {
+    NodeD<T>* nuevo = new NodeD<T>(data);
+    if (head == nullptr) {
+        head = nuevo;
+        tail = nuevo;
+    } else {
+        nuevo->next = head;
+        head->prev = nuevo;
+        head = nuevo;
+    }
+    size++;
+}
+
+template <typename T>
+void DoublyLinkedList<T>::addLast(T data) {
+    NodeD<T>* nuevo = new NodeD<T>(data);
+    if (head == nullptr) {
+        head = nuevo;
+        tail = nuevo;
+    } else {
+        nuevo->prev = tail;
+        tail->next = nuevo;
+        tail = nuevo;
+    }
+    size++;
+}
+
+template <typename T>
+void DoublyLinkedList<T>::insert(int index, T data) {
+    if (index < 0 || index >= size) {
+        cout << "Índice inválido" << endl;
+        return;   //  AGREGADO por IA
+    }
+
+    if (index == size - 1) {
+        addLast(data);
+        return;
+    }
+    if (index == 0) {
+        addFirst(data);
+        return;
+    }
+
+    NodeD<T>* aux = head;
+    for (int i = 0; i < index; i++) {
+        aux = aux->next;
+    }
+    NodeD<T>* nuevo = new NodeD<T>(data);
+    nuevo->prev = aux;
+    nuevo->next = aux->next;
+    aux->next->prev = nuevo;
+    aux->next = nuevo;
+    size++;
+}
+
+template <typename T>
+bool DoublyLinkedList<T>::deleteData(T data) {
+    int pos = findData(data);
+    if (pos == -1) return false;
+    return deleteAt(pos);
+}
+
+template <typename T>
+bool DoublyLinkedList<T>::deleteAt(int index) {
+    if (index < 0 || index >= size) return false;
+
+    if (size == 1) {
+        delete head;
+        head = nullptr;
+        tail = nullptr;
+        size--;
+        return true;
+    }
+    if (index == 0) {
+        NodeD<T>* aux = head;
+        head = head->next;
+        head->prev = nullptr;
+        delete aux;
+        size--;
+        return true;
+    }
+    if (index == size - 1) {
+        NodeD<T>* aux = tail;
+        tail = tail->prev;
+        tail->next = nullptr;
+        delete aux;
+        size--;
+        return true;
+    }
+
+    NodeD<T>* aux = head;
+    for (int i = 0; i < index; i++) {
+        aux = aux->next;
+    }
+    aux->prev->next = aux->next;
+    aux->next->prev = aux->prev;
+    delete aux;
+    size--;
+    return true;
+}
+
+template <typename T>
+T DoublyLinkedList<T>::getData(int index) {
+    if (index < 0 || index >= size) {
+        cout << "Índice inválido" << endl;
+        return T();   //  AGREGADO por IA
+    }
+    NodeD<T>* aux = head;
+    for (int i = 0; i < index; i++) {
+        aux = aux->next;
+    }
+    return aux->data;
+}
+
+template <typename T>
+void DoublyLinkedList<T>::updateData(T oldData, T newData) {
+    NodeD<T>* aux = head;
+    while (aux != nullptr) {
+        if (aux->data == oldData) {
+            aux->data = newData;
+            return;
+        }
+        aux = aux->next;
+    }
+    cout << "Dato no encontrado" << endl;
+}
+
+template <typename T>
+void DoublyLinkedList<T>::updateAt(int index, T newData) {
+    if (index < 0 || index >= size) {
+        cout << "Índice inválido" << endl;
+        return;
+    }
+    NodeD<T>* aux = head;
+    for (int i = 0; i < index; i++) {
+        aux = aux->next;
+    }
+    aux->data = newData;
+}
+
+template <typename T>
+int DoublyLinkedList<T>::findData(T data) {
+    NodeD<T>* aux = head;
+    int pos = 0;
+    while (aux != nullptr) {
+        if (aux->data == data) return pos;
+        aux = aux->next;
+        pos++;
+    }
+    return -1;
+}
+
+template <typename T>
+void DoublyLinkedList<T>::clear() {
+    while (head != nullptr) {
+        NodeD<T>* aux = head;
+        head = head->next;
+        delete aux;
+    }
+    tail = nullptr;
+    size = 0;
+}
+
+template <typename T>
+void swapVec(vector<T> &list, int i, int j) {
+    T temp = list[i];
+    list[i] = list[j];
+    list[j] = temp;
+}
+
+template <typename T>
+int getPivot(vector<T> &list, int left, int right) {
+    int aux = left - 1;
+    int pivot = right;
+    for (int i = left; i < pivot; i++) {
+        if (list[pivot] > list[i]) {
+            aux++;
+            swapVec(list, aux, i);
+        }
+    }
+    aux++;
+    swapVec(list, aux, pivot);
+    return aux;
+}
+
+template <typename T>
+void quickSort(vector<T> &list, int left, int right) {
+    if (left < right) {
+        int pivot = getPivot(list, left, right);
+        quickSort(list, left, pivot - 1);
+        quickSort(list, pivot + 1, right);
+    }
+}
+
+template <typename T>
+void DoublyLinkedList<T>::sort() {
+    if (size < 2) return;
+
+    vector<T> datos;
+    NodeD<T>* aux = head;
+    while (aux != nullptr) {
+        datos.push_back(aux->data);
+        aux = aux->next;
+    }
+
+    quickSort(datos, 0, datos.size() - 1);
+
+    aux = head;
+    int i = 0;
+    while (aux != nullptr) {
+        aux->data = datos[i];
+        aux = aux->next;
+        i++;
+    }
+}
+
+template <typename T>
+void DoublyLinkedList<T>::duplicate() {
+    NodeD<T>* aux = head;
+    while (aux != nullptr) {
+        NodeD<T>* nuevo = new NodeD<T>(aux->data);
+        nuevo->next = aux->next;
+        nuevo->prev = aux;
+        if (aux->next != nullptr) {
+            aux->next->prev = nuevo;
+        } else {
+            tail = nuevo;
+        }
+        aux->next = nuevo;
+        aux = nuevo->next;
+        size++;
+    }
+}
+
+template <typename T>
+void DoublyLinkedList<T>::removeDuplicates() {
+    if (size < 2) return;
+    sort();
+    NodeD<T>* aux = head;
+    while (aux != nullptr && aux->next != nullptr) {
+        if (aux->data == aux->next->data) {
+            NodeD<T>* repetido = aux->next;
+            aux->next = repetido->next;
+            if (repetido->next != nullptr) {
+                repetido->next->prev = aux;
+            } else {
+                tail = aux;
+            }
+            delete repetido;
+            size--;
+        } else {
+            aux = aux->next;
+        }
+    }
+}
+
+template <typename T>
+void DoublyLinkedList<T>::print() {
+    NodeD<T>* aux = head;
+    while (aux != nullptr) {
+        cout << aux->data;
+        aux = aux->next;
+        if (aux != nullptr) cout << "-";
+    }
+    cout << endl;
+}
+
+template <typename T>
+T& DoublyLinkedList<T>::operator[](int index) {
+    static T dummy = T();       //  AGREGADO por IA
+    if (index < 0 || index >= size) {
+        cout << "Índice inválido" << endl;
+        return dummy;           //  AGREGADO por IA
+    }
+    NodeD<T>* aux = head;
+    for (int i = 0; i < index; i++) {
+        aux = aux->next;
+    }
+    return aux->data;
+}
+
+template <typename T>
+DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(const DoublyLinkedList<T>& other) {
+    if (this == &other) return *this;
+    clear();
+    NodeD<T>* aux = other.head;
+    while (aux != nullptr) {
+        addLast(aux->data);
+        aux = aux->next;
+    }
+    return *this;
+}
+
+#endif
