@@ -1,9 +1,9 @@
-#ifndef DOUBLYLINKEDLIST_H
-#define DOUBLYLINKEDLIST_H
+#ifndef DoublyLinkedList_h
+#define DoublyLinkedList_h
 
 #include "Node.h"
 #include <vector>
-#include <iostream>
+#include <iostream>    // para imprimir
 using namespace std;
 
 template <typename T>
@@ -13,11 +13,22 @@ private:
     NodeD<T>* tail;
     int size;
 
+
+    // contadores para Merge Sort   
+    int comparaciones;
+    int profundidadActual;
+    int profundidadMaxima;
+    // métodos privados del Merge Sort
+    NodeD<T>* getMiddle(NodeD<T>* head);
+    NodeD<T>* merge(NodeD<T>* a, NodeD<T>* b);
+    NodeD<T>* mergeSortRec(NodeD<T>* head);
+
 public:
-    DoublyLinkedList() : head(nullptr), tail(nullptr), size(0) {}
 
+    DoublyLinkedList() : head(nullptr), tail(nullptr), size(0), comparaciones(0), profundidadActual(0), profundidadMaxima(0) {}
 
-    ~DoublyLinkedList() {   // Destructor agregado por IA
+    
+    ~DoublyLinkedList() { // Destructor agregado por IA
         clear();
     }
 
@@ -32,31 +43,41 @@ public:
     int findData(T data);
 
     void clear();
-    void sort();
+    void sort();              // sort con vector
+    void mergeSort();         // sort sobre la lista
     void duplicate();
     void removeDuplicates();
     void print();
 
-    T& operator[](int index);
-    DoublyLinkedList<T>& operator=(const DoublyLinkedList<T>& other);
+    T& operator[](int index);  // Sobrecarga de operadores
+    DoublyLinkedList<T>& operator=(const DoublyLinkedList<T>& other); 
 
     int getSize() { return size; }
+
+    //getters de contadores y head
+    int getComparaciones() { return comparaciones; }
+    int getProfundidadMaxima() { return profundidadMaxima; }
+    NodeD<T>* getHead() { return head; }
+    NodeD<T>* getTail() { return tail; }
 };
+
 
 
 template <typename T>
 void DoublyLinkedList<T>::addFirst(T data) {
     NodeD<T>* nuevo = new NodeD<T>(data);
-    if (head == nullptr) {
+    if (head == nullptr) { // Si la lista está vacía
         head = nuevo;
         tail = nuevo;
     } else {
-        nuevo->next = head;
-        head->prev = nuevo;
+        nuevo->next = head; // apunta al antiguo primer nodo
+        head->prev = nuevo; // el antiguo primer nodo apunta al nuevo
         head = nuevo;
     }
     size++;
 }
+
+
 
 template <typename T>
 void DoublyLinkedList<T>::addLast(T data) {
@@ -72,11 +93,12 @@ void DoublyLinkedList<T>::addLast(T data) {
     size++;
 }
 
+
 template <typename T>
 void DoublyLinkedList<T>::insert(int index, T data) {
     if (index < 0 || index >= size) {
         cout << "Índice inválido" << endl;
-        return;   //  AGREGADO por IA
+        return;
     }
 
     if (index == size - 1) {
@@ -88,7 +110,7 @@ void DoublyLinkedList<T>::insert(int index, T data) {
         return;
     }
 
-    NodeD<T>* aux = head;
+    NodeD<T>* aux = head; // Buscamos el nodo en la posición index
     for (int i = 0; i < index; i++) {
         aux = aux->next;
     }
@@ -100,12 +122,16 @@ void DoublyLinkedList<T>::insert(int index, T data) {
     size++;
 }
 
+
+
 template <typename T>
 bool DoublyLinkedList<T>::deleteData(T data) {
     int pos = findData(data);
     if (pos == -1) return false;
     return deleteAt(pos);
 }
+
+
 
 template <typename T>
 bool DoublyLinkedList<T>::deleteAt(int index) {
@@ -126,6 +152,7 @@ bool DoublyLinkedList<T>::deleteAt(int index) {
         size--;
         return true;
     }
+
     if (index == size - 1) {
         NodeD<T>* aux = tail;
         tail = tail->prev;
@@ -135,32 +162,35 @@ bool DoublyLinkedList<T>::deleteAt(int index) {
         return true;
     }
 
-    NodeD<T>* aux = head;
+    NodeD<T>* aux = head; //hacemos que el nodo aux apunte al primer nodo para buscar el índice
     for (int i = 0; i < index; i++) {
         aux = aux->next;
     }
-    aux->prev->next = aux->next;
-    aux->next->prev = aux->prev;
+    aux->prev->next = aux->next; // Conectamos el anterior con el siguiente
+    aux->next->prev = aux->prev; // Conectamos el siguiente con el anterior
     delete aux;
     size--;
     return true;
 }
 
+
+
 template <typename T>
 T DoublyLinkedList<T>::getData(int index) {
     if (index < 0 || index >= size) {
         cout << "Índice inválido" << endl;
-        return T();   //  AGREGADO por IA
+        return T();
     }
     NodeD<T>* aux = head;
     for (int i = 0; i < index; i++) {
-        aux = aux->next;
+        aux = aux->next; // Avanzamos al siguiente nodo
     }
     return aux->data;
 }
 
+
 template <typename T>
-void DoublyLinkedList<T>::updateData(T oldData, T newData) {
+void DoublyLinkedList<T>::updateData(T oldData, T newData) { // Busca el primer elemento igual a oldData y lo cambia por newData
     NodeD<T>* aux = head;
     while (aux != nullptr) {
         if (aux->data == oldData) {
@@ -171,6 +201,8 @@ void DoublyLinkedList<T>::updateData(T oldData, T newData) {
     }
     cout << "Dato no encontrado" << endl;
 }
+
+
 
 template <typename T>
 void DoublyLinkedList<T>::updateAt(int index, T newData) {
@@ -184,6 +216,8 @@ void DoublyLinkedList<T>::updateAt(int index, T newData) {
     }
     aux->data = newData;
 }
+
+
 
 template <typename T>
 int DoublyLinkedList<T>::findData(T data) {
@@ -207,6 +241,8 @@ void DoublyLinkedList<T>::clear() {
     tail = nullptr;
     size = 0;
 }
+
+
 
 template <typename T>
 void swapVec(vector<T> &list, int i, int j) {
@@ -239,10 +275,13 @@ void quickSort(vector<T> &list, int left, int right) {
     }
 }
 
+// Decidí usar Quick Sort pero para hacerlo más fácil, primero convertí la DoublyList a un vector, luego lo ordené como ya sabíamos y lo convertí otra vez a una DoublyList.
+// Este sort queda solo para pruebas pequeñas y mejor entendimiento. Para la Parte B (logs) se usa mergeSort().
 template <typename T>
 void DoublyLinkedList<T>::sort() {
     if (size < 2) return;
 
+    // Copiamos los datos de la lista a un vector
     vector<T> datos;
     NodeD<T>* aux = head;
     while (aux != nullptr) {
@@ -250,8 +289,10 @@ void DoublyLinkedList<T>::sort() {
         aux = aux->next;
     }
 
+    // Ordenamos el vector con quickSort
     quickSort(datos, 0, datos.size() - 1);
 
+    // Regresamos los datos ordenados a la lista
     aux = head;
     int i = 0;
     while (aux != nullptr) {
@@ -260,6 +301,8 @@ void DoublyLinkedList<T>::sort() {
         i++;
     }
 }
+
+
 
 template <typename T>
 void DoublyLinkedList<T>::duplicate() {
@@ -278,6 +321,8 @@ void DoublyLinkedList<T>::duplicate() {
         size++;
     }
 }
+
+
 
 template <typename T>
 void DoublyLinkedList<T>::removeDuplicates() {
@@ -301,6 +346,8 @@ void DoublyLinkedList<T>::removeDuplicates() {
     }
 }
 
+
+
 template <typename T>
 void DoublyLinkedList<T>::print() {
     NodeD<T>* aux = head;
@@ -312,12 +359,14 @@ void DoublyLinkedList<T>::print() {
     cout << endl;
 }
 
+
+
 template <typename T>
 T& DoublyLinkedList<T>::operator[](int index) {
-    static T dummy = T();       //  AGREGADO por IA
+    static T dummy = T();
     if (index < 0 || index >= size) {
         cout << "Índice inválido" << endl;
-        return dummy;           //  AGREGADO por IA
+        return dummy;
     }
     NodeD<T>* aux = head;
     for (int i = 0; i < index; i++) {
@@ -326,10 +375,10 @@ T& DoublyLinkedList<T>::operator[](int index) {
     return aux->data;
 }
 
+
 template <typename T>
 DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(const DoublyLinkedList<T>& other) {
-    if (this == &other) return *this;
-    clear();
+    if (this == &other) return *this;  // evitar auto-asignación Agregado por IA
     NodeD<T>* aux = other.head;
     while (aux != nullptr) {
         addLast(aux->data);
@@ -338,4 +387,88 @@ DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(const DoublyLinkedList<T>& o
     return *this;
 }
 
-#endif
+
+
+// Regresa el nodo del medio de la lista (de head a nullptr)
+template <typename T>
+NodeD<T>* DoublyLinkedList<T>::getMiddle(NodeD<T>* head) {
+    NodeD<T>* slow = head;
+    NodeD<T>* fast = head->next;
+    while (fast != nullptr && fast->next != nullptr) {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    return slow;
+}
+
+// Mezcla dos listas ordenadas en una sola
+template <typename T>
+NodeD<T>* DoublyLinkedList<T>::merge(NodeD<T>* a, NodeD<T>* b) {
+    if (a == nullptr) return b;
+    if (b == nullptr) return a;
+
+    comparaciones++;
+    NodeD<T>* result = nullptr;
+
+    // <= para que sea estable (conserva el orden de llegada con misma fecha) recomendación por IA
+    if (a->data <= b->data) {
+        result = a;
+        result->next = merge(a->next, b);
+    } else {
+        result = b;
+        result->next = merge(a, b->next);
+    }
+
+    if (result->next != nullptr) {
+        result->next->prev = result;
+    }
+    return result;
+}
+
+// Recursión del Merge Sort
+template <typename T>
+NodeD<T>* DoublyLinkedList<T>::mergeSortRec(NodeD<T>* head) {
+    if (head == nullptr || head->next == nullptr) return head;
+
+    profundidadActual++;
+    if (profundidadActual > profundidadMaxima) {
+        profundidadMaxima = profundidadActual;
+    }
+                           
+    NodeD<T>* mid = getMiddle(head); // Encontrar el medio y cortar la lista
+    NodeD<T>* right = mid->next;
+    mid->next = nullptr;
+    if (right != nullptr) right->prev = nullptr;
+
+   
+    NodeD<T>* left = mergeSortRec(head);  // Ordenar cada mitad
+    NodeD<T>* rightSorted = mergeSortRec(right);
+
+    // Mezclar
+    NodeD<T>* result = merge(left, rightSorted);
+
+    profundidadActual--;
+    return result;
+}
+
+
+template <typename T>
+void DoublyLinkedList<T>::mergeSort() {
+    if (size < 2) return;
+
+    comparaciones = 0;
+    profundidadActual = 0;
+    profundidadMaxima = 0;
+
+    head = mergeSortRec(head);
+
+    tail = head;
+    while (tail != nullptr && tail->next != nullptr) {
+        tail = tail->next;
+    }
+
+    if (head != nullptr) head->prev = nullptr;
+    if (tail != nullptr) tail->next = nullptr;
+}
+
+#endif /* DoublyLinkedList_h */
