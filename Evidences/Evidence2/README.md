@@ -28,3 +28,4 @@ El proyecto está organizado en las siguientes carpetas:
 g++ -std=c++17 src/main_logs.cpp src/Log.cpp -I include -o logs && ./logs
 
 ## VIDEO
+https://youtu.be/Kqz8zexCS7U
