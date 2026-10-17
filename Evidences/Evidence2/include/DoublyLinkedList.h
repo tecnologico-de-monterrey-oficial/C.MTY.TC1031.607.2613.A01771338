@@ -26,10 +26,9 @@ private:
 
 public:
 
-    DoublyLinkedList() : head(nullptr), tail(nullptr), size(0),
-                         comparaciones(0), profundidadActual(0), profundidadMaxima(0) {}
+    DoublyLinkedList() : head(nullptr), tail(nullptr), size(0), comparaciones(0), profundidadActual(0), profundidadMaxima(0) {}
 
-    // Destructor: libera toda la memoria
+    // Destructor por ia
     ~DoublyLinkedList() {
         clear();
     }
@@ -45,8 +44,8 @@ public:
     int findData(T data);
 
     void clear();
-    void sort();              // sort viejo (con vector) - se queda para pruebas
-    void mergeSort();         // NUEVO: sort sobre la lista
+    void sort();              
+    void mergeSort();         
     void duplicate();
     void removeDuplicates();
     void print();
@@ -56,14 +55,14 @@ public:
 
     int getSize() { return size; }
 
-    // ==== getters de contadores y head ====
+    
     int getComparaciones() { return comparaciones; }
     int getProfundidadMaxima() { return profundidadMaxima; }
     NodeD<T>* getHead() { return head; }
     NodeD<T>* getTail() { return tail; }
 };
 
-// ==================== addFirst ====================
+
 template <typename T>
 void DoublyLinkedList<T>::addFirst(T data) {
     NodeD<T>* nuevo = new NodeD<T>(data);
@@ -78,7 +77,6 @@ void DoublyLinkedList<T>::addFirst(T data) {
     size++;
 }
 
-// ==================== addLast ====================
 template <typename T>
 void DoublyLinkedList<T>::addLast(T data) {
     NodeD<T>* nuevo = new NodeD<T>(data);
@@ -93,7 +91,7 @@ void DoublyLinkedList<T>::addLast(T data) {
     size++;
 }
 
-// ==================== insert ====================
+
 template <typename T>
 void DoublyLinkedList<T>::insert(int index, T data) {
     if (index < 0 || index >= size) {
@@ -122,7 +120,7 @@ void DoublyLinkedList<T>::insert(int index, T data) {
     size++;
 }
 
-// ==================== deleteData ====================
+
 template <typename T>
 bool DoublyLinkedList<T>::deleteData(T data) {
     int pos = findData(data);
@@ -130,7 +128,7 @@ bool DoublyLinkedList<T>::deleteData(T data) {
     return deleteAt(pos);
 }
 
-// ==================== deleteAt ====================
+
 template <typename T>
 bool DoublyLinkedList<T>::deleteAt(int index) {
     if (index < 0 || index >= size) return false;
@@ -171,7 +169,7 @@ bool DoublyLinkedList<T>::deleteAt(int index) {
     return true;
 }
 
-// ==================== getData ====================
+
 template <typename T>
 T DoublyLinkedList<T>::getData(int index) {
     if (index < 0 || index >= size) {
@@ -185,7 +183,7 @@ T DoublyLinkedList<T>::getData(int index) {
     return aux->data;
 }
 
-// ==================== updateData ====================
+
 template <typename T>
 void DoublyLinkedList<T>::updateData(T oldData, T newData) {
     NodeD<T>* aux = head;
@@ -199,7 +197,7 @@ void DoublyLinkedList<T>::updateData(T oldData, T newData) {
     cout << "Dato no encontrado" << endl;
 }
 
-// ==================== updateAt ====================
+
 template <typename T>
 void DoublyLinkedList<T>::updateAt(int index, T newData) {
     if (index < 0 || index >= size) {
@@ -213,7 +211,6 @@ void DoublyLinkedList<T>::updateAt(int index, T newData) {
     aux->data = newData;
 }
 
-// ==================== findData ====================
 template <typename T>
 int DoublyLinkedList<T>::findData(T data) {
     NodeD<T>* aux = head;
@@ -226,7 +223,6 @@ int DoublyLinkedList<T>::findData(T data) {
     return -1;
 }
 
-// ==================== clear ====================
 template <typename T>
 void DoublyLinkedList<T>::clear() {
     while (head != nullptr) {
@@ -238,7 +234,7 @@ void DoublyLinkedList<T>::clear() {
     size = 0;
 }
 
-// ==================== sort viejo (con vector) ====================
+
 template <typename T>
 void swapVec(vector<T> &list, int i, int j) {
     T temp = list[i];
@@ -294,7 +290,7 @@ void DoublyLinkedList<T>::sort() {
     }
 }
 
-// ==================== duplicate ====================
+
 template <typename T>
 void DoublyLinkedList<T>::duplicate() {
     NodeD<T>* aux = head;
@@ -313,7 +309,6 @@ void DoublyLinkedList<T>::duplicate() {
     }
 }
 
-// ==================== removeDuplicates ====================
 template <typename T>
 void DoublyLinkedList<T>::removeDuplicates() {
     if (size < 2) return;
@@ -336,7 +331,6 @@ void DoublyLinkedList<T>::removeDuplicates() {
     }
 }
 
-// ==================== print ====================
 template <typename T>
 void DoublyLinkedList<T>::print() {
     NodeD<T>* aux = head;
@@ -348,7 +342,6 @@ void DoublyLinkedList<T>::print() {
     cout << endl;
 }
 
-// ==================== operator[] ====================
 template <typename T>
 T& DoublyLinkedList<T>::operator[](int index) {
     static T dummy = T();
@@ -363,7 +356,6 @@ T& DoublyLinkedList<T>::operator[](int index) {
     return aux->data;
 }
 
-// ==================== operator= ====================
 template <typename T>
 DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(const DoublyLinkedList<T>& other) {
     if (this == &other) return *this;
@@ -376,9 +368,6 @@ DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(const DoublyLinkedList<T>& o
     return *this;
 }
 
-// ==================== MERGE SORT ====================
-
-// Regresa el nodo del medio de la lista (de head a nullptr)
 template <typename T>
 NodeD<T>* DoublyLinkedList<T>::getMiddle(NodeD<T>* head) {
     NodeD<T>* slow = head;
@@ -437,7 +426,6 @@ NodeD<T>* DoublyLinkedList<T>::mergeSortRec(NodeD<T>* head) {
     return result;
 }
 
-// Método público que reinicia contadores y llama a la recursión
 template <typename T>
 void DoublyLinkedList<T>::mergeSort() {
     if (size < 2) return;

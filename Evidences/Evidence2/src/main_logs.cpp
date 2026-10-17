@@ -16,7 +16,7 @@ string archivoActual = "";
 
 string meses[13] = {"", "Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
-// Convierte "Sep" + 14 + 2024 a una clave "Sep 14 2024"
+
 string claveDia(Log log) {
     return meses[log.month] + " " + to_string(log.day) + " " + to_string(log.year);
 }
@@ -295,7 +295,7 @@ void mostrarEstadisticas() {
     for (auto& par : conteoIPs) if (par.second == maxIP) cout << "  " << par.first << endl;
 }
 
-// ============== MAIN ==============
+
 int main() {
     int opcion;
 
