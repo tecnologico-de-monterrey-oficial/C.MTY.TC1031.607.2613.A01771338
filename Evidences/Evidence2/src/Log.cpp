@@ -1,6 +1,6 @@
 #include "../include/Log.h"
 
-int mesANumero(const string& m) { // esta línea pide de parametro un string guardado en la variable m (mes) y regresa un número int
+int mesANumero(const string& m) {
     if (m == "Jan") return 1;
     if (m == "Feb") return 2;
     if (m == "Mar") return 3;
@@ -45,9 +45,7 @@ bool sameDateTime(const Log& a, const Log& b) {
            a.sec == b.sec;
 }
 
-// Convierte una línea en un Log.
-// Regresa "" si todo está bien, o un mensaje de error si algo está mal.
-string LineToLog(const string& linea, Log& resultado) {
+string parseLog(const string& linea, Log& resultado) {
     stringstream ss(linea);
 
     string monthStr;
@@ -55,6 +53,12 @@ string LineToLog(const string& linea, Log& resultado) {
     string time;
     string ip;
 
+    // Intentar leer los primeros 5 campos
+    if (!(ss >> monthStr >> day >> year >> time >> ip)) {
+        return "faltan campos";
+    }
+
+    // Validar el mes
     int mes = mesANumero(monthStr);
     if (mes == 0) return "mes invalido";
 
@@ -69,19 +73,20 @@ string LineToLog(const string& linea, Log& resultado) {
     if (!(timeStream >> hour >> colon1 >> min >> colon2 >> sec)) {
         return "hora con formato invalido";
     }
+    if (colon1 != ':' || colon2 != ':') return "hora con formato invalido";
     if (hour < 0 || hour > 23) return "hora invalida";
     if (min < 0 || min > 59) return "minuto invalido";
     if (sec < 0 || sec > 59) return "segundo invalido";
 
-    // Leer el mensaje (el resto de la línea)
+    
     string message;
     getline(ss, message);
     if (!message.empty() && message[0] == ' ') {
-        message.erase(0, 1);   // quitar el espacio inicial AGREGADO RECOMENDACIÓN IA
+        message.erase(0, 1);
     }
     if (message.empty()) return "mensaje vacio";
 
-   //llenamos el LOG
+    // Todo bien: llenamos el Log
     resultado.month = mes;
     resultado.day = day;
     resultado.year = year;
@@ -91,5 +96,5 @@ string LineToLog(const string& linea, Log& resultado) {
     resultado.ip = ip;
     resultado.message = message;
 
-    return "";  
+    return "";
 }
