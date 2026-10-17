@@ -25,4 +25,6 @@ El proyecto está organizado en las siguientes carpetas:
 1. Abre la terminal.
 2. Compila el programa con el siguiente comando:
 
-g++ -std=c++17 src/main_logs.cpp src/Log.cpp -I include -o logs
+g++ -std=c++17 src/main_logs.cpp src/Log.cpp -I include -o logs && ./logs
+
+## VIDEO
