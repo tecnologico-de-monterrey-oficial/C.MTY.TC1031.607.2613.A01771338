@@ -15,6 +15,7 @@ struct Log {
     string ip;
     string message;
 
+    // Convierte el log a string con el formato original
     string toString() const {
         stringstream ss;
         ss << year << " " << month << " " << day << " "
@@ -34,7 +35,7 @@ struct Log {
     }
 };
 
-
+// Convierte el nombre del mes ("Jan", "Feb", ...) a número (1, 2, ...)
 int mesANumero(const string& m);
 
 // Compara dos logs por fecha y hora. Regresa true si 'a' es anterior a 'b'.
@@ -43,8 +44,8 @@ bool afterBefore(const Log& a, const Log& b);
 // Compara dos logs por fecha y hora. Regresa true si son exactamente iguales.
 bool sameDateTime(const Log& a, const Log& b);
 
-// Intenta convertir una línea de texto en un Log.
+// Convierte una línea de texto en un Log.
 // Regresa "" si todo está bien, o un mensaje de error si algo está mal.
-string parseLog(const string& linea, Log& resultado);
+string LineToLog(const string& linea, Log& resultado);
 
 #endif

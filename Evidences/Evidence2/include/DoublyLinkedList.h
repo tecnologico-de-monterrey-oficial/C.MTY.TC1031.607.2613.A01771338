@@ -271,7 +271,7 @@ void quickSort(vector<T> &list, int left, int right) {
 }
 
 // Decidí usar Quick Sort pero para hacerlo más fácil, primero convertí la DoublyList a un vector, luego lo ordené como ya sabíamos y lo convertí otra vez a una DoublyList.
-//Este sort queda solo para pruebas pequeñas. Para la Parte B (logs) se usa mergeSort().
+// Este sort queda solo para pruebas pequeñas. Para la Parte B (logs) se usa mergeSort().
 template <typename T>
 void DoublyLinkedList<T>::sort() {
     if (size < 2) return;

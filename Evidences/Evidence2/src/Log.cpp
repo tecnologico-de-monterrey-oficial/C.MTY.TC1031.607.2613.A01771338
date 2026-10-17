@@ -45,7 +45,7 @@ bool sameDateTime(const Log& a, const Log& b) {
            a.sec == b.sec;
 }
 
-string parseLog(const string& linea, Log& resultado) {
+string LineToLog(const string& linea, Log& resultado) {
     stringstream ss(linea);
 
     string monthStr;
@@ -78,7 +78,7 @@ string parseLog(const string& linea, Log& resultado) {
     if (min < 0 || min > 59) return "minuto invalido";
     if (sec < 0 || sec > 59) return "segundo invalido";
 
-    
+    // Leer el mensaje (el resto de la línea)
     string message;
     getline(ss, message);
     if (!message.empty() && message[0] == ' ') {

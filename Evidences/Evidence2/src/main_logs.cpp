@@ -14,14 +14,12 @@ bool cargado = false;
 bool ordenado = false;
 string archivoActual = "";
 
+string meses[13] = {"", "Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
-string meses[13] = {"", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-
-
+// Convierte "Sep" + 14 + 2024 a una clave "Sep 14 2024"
 string claveDia(Log log) {
     return meses[log.month] + " " + to_string(log.day) + " " + to_string(log.year);
 }
-
 
 int stringAInt(string s) {
     int num = 0;
@@ -31,18 +29,17 @@ int stringAInt(string s) {
     return num;
 }
 
-
 void cargarArchivo() {
     cout << "\nQue archivo quieres cargar?" << endl;
-    cout << "1. log608-1.txt" << endl;
-    cout << "2. log608-2.txt" << endl;
+    cout << "1. log607-1.txt" << endl;
+    cout << "2. log607-2.txt" << endl;
     cout << "Opcion: ";
 
     int opcion;
     cin >> opcion;
 
-    if (opcion == 1) archivoActual = "data/log608-1.txt";
-    else if (opcion == 2) archivoActual = "data/log608-2.txt";
+    if (opcion == 1) archivoActual = "data/log607-1.txt";
+    else if (opcion == 2) archivoActual = "data/log607-2.txt";
     else {
         cout << "Opcion invalida" << endl;
         return;
@@ -98,19 +95,16 @@ void ordenarLista() {
         return;
     }
 
-    // Pedir predicción
-    cout << "\nTamano de los datos: " << lista.getSize() << endl;
+    cout << "\nTamaño de los datos: " << lista.getSize() << endl;
     cout << "Cuantas comparaciones esperas? ";
     int prediccion;
     cin >> prediccion;
 
-    // Medir tiempo
     clock_t inicio = clock();
     lista.mergeSort();
     clock_t fin = clock();
     double tiempo = double(fin - inicio) / CLOCKS_PER_SEC;
 
-    // Mostrar resultados
     cout << "\n===== RESULTADO =====" << endl;
     cout << "Algoritmo: Merge Sort" << endl;
     cout << "Archivo: " << archivoActual << endl;
@@ -120,7 +114,6 @@ void ordenarLista() {
     cout << "Profundidad maxima: " << lista.getProfundidadMaxima() << endl;
     cout << "Tu prediccion: " << prediccion << endl;
 
-    // Comparar predicción
     int error = prediccion - lista.getComparaciones();
     if (error < 0) error = -error;
     double porcentaje = (double(error) / lista.getComparaciones()) * 100;
@@ -130,17 +123,15 @@ void ordenarLista() {
 
     ordenado = true;
 
-    // Guardar output608.out
-    ofstream output("out/output608.out");
+    ofstream output("out/output607.out");
     if (!output) {
-        cout << "No se pudo crear out/output608.out" << endl;
+        cout << "No se pudo crear out/output607.out" << endl;
         return;
     }
 
     NodeD<Log>* aux = lista.getHead();
     while (aux != nullptr) {
         Log log = aux->data;
-        // Formato: Sep 29 2024 14:37:38 10.14.19.188 Mensaje
         output << meses[log.month] << " ";
         if (log.day < 10) output << "0";
         output << log.day << " " << log.year << " ";
@@ -154,7 +145,7 @@ void ordenarLista() {
         aux = aux->next;
     }
     output.close();
-    cout << "Archivo guardado: out/output608.out" << endl;
+    cout << "Archivo guardado: out/output607.out" << endl;
 }
 
 // ============== OPCION 3: BUSCAR POR DIA ==============
@@ -197,12 +188,10 @@ void buscarPorDia() {
     while (aux != nullptr) {
         Log log = aux->data;
 
-        // Si ya pasamos del día, paramos
         if (log.year > anio) break;
         if (log.year == anio && log.month > mes) break;
         if (log.year == anio && log.month == mes && log.day > dia) break;
 
-        // Si es del día, lo mostramos
         if (log.year == anio && log.month == mes && log.day == dia) {
             cout << log.toString() << endl;
             total++;
@@ -238,7 +227,6 @@ void mostrarDescendente() {
     int dia = stringAInt(diaStr);
     int anio = stringAInt(anioStr);
 
-    // Meter los del día en una Pila
     Stack<Log> pila;
     NodeD<Log>* aux = lista.getHead();
     while (aux != nullptr) {
@@ -275,7 +263,6 @@ void mostrarEstadisticas() {
         return;
     }
 
-    // Contamos usando map (permitido por la actividad)
     map<string, int> conteoDias;
     map<string, int> conteoEventos;
     map<string, int> conteoIPs;
@@ -292,26 +279,23 @@ void mostrarEstadisticas() {
     cout << "\n===== ESTADISTICAS =====" << endl;
     cout << "Total de registros: " << lista.getSize() << endl;
 
-    // Día con más incidentes
     int maxDia = 0;
     for (auto& par : conteoDias) if (par.second > maxDia) maxDia = par.second;
     cout << "\nDia(s) con mas incidentes (" << maxDia << "):" << endl;
     for (auto& par : conteoDias) if (par.second == maxDia) cout << "  " << par.first << endl;
 
-    // Evento más frecuente
     int maxEvento = 0;
     for (auto& par : conteoEventos) if (par.second > maxEvento) maxEvento = par.second;
     cout << "\nEvento(s) mas frecuente(s) (" << maxEvento << "):" << endl;
     for (auto& par : conteoEventos) if (par.second == maxEvento) cout << "  " << par.first << endl;
 
-    // IP más repetida
     int maxIP = 0;
     for (auto& par : conteoIPs) if (par.second > maxIP) maxIP = par.second;
     cout << "\nIP(s) mas frecuente(s) (" << maxIP << "):" << endl;
     for (auto& par : conteoIPs) if (par.second == maxIP) cout << "  " << par.first << endl;
 }
 
-
+// ============== MAIN ==============
 int main() {
     int opcion;
 
